@@ -10,4 +10,4 @@ main.luarepo:	main.c
 	gcc -o main main.c lua/liblua.a -ldl -lreadline -lm -DUSE_LUA_REPO
 clean:	
 	rm -rf main
-	make -C lua clean
+	git submodule deinit -f lua
