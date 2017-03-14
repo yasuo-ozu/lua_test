@@ -14,7 +14,7 @@ print(func)
 
 -- define user function (called from c)
 function luafunc(a, b)
-	-- type will be identified in c
+	-- return type will be identified in c
 	return a * a * b
 	-- return "bad func"
 end
@@ -24,3 +24,20 @@ function erroc()
 	-- error("myerror")
 end
 erroc()
+
+-- coroutine test (iterated from c)
+function test_coroutine()
+	for i=1, 10 do
+		coroutine.yield(i * i)
+	end
+	return 1
+end
+
+-- coroutine can also be called from lua
+co = coroutine.create(test_coroutine)
+repeat
+	f, a = coroutine.resume(co)
+	print("YIELD_LUA: " .. a)
+until coroutine.status(co) == "dead"
+
+

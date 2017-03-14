@@ -91,6 +91,16 @@ int main(void)
 		printf("luafunc(3, 5) == (string) %s\n", lua_tostring(L, -1));
 	}
 
+	// run coroutine
+	lua_State *L1;
+	L1 = lua_newthread(L);
+	lua_getglobal(L1, "test_coroutine");
+	ret = 0;
+	while (lua_resume(L1, L, 0) == LUA_YIELD) {
+		ret = lua_tointeger(L1, -1);
+		printf("YIELD %d\n", ret);
+	}
+
 	lua_close(L);
 	return 0;
 }
